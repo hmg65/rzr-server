@@ -1,19 +1,20 @@
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+import cors from "cors";
 const app = express();
-
+app.use(cors());
 dotenv.config();
 
 app.use(express.json());
 
-app.post("/api/validate", async (req, res) => {
-  let vpa = { vpa: "hmg65@ybl" };
+app.get("/api/validate/:vpa", async (req, res) => {
+
   let username = process.env.NODE_APP_USERNAME;
   let password = process.env.NODE_APP_PASSWORD;
-
+const vp_add = req.params.vpa;
   const body = {
-    vpa: "hmg65@ybl",
+    vpa: vp_add,
   };
 
   const api_response = await fetch(
