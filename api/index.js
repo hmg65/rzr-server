@@ -128,7 +128,7 @@ app.get("/api/xrpl/test/txn/:seed/:destAddr/:amount", async (req, res) => {
   const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233');
   await client.connect();
 
-  const destAddr = "";
+  var destAddr = "";
 
   if(req.params.destAdd === "INR"){
      destAddr = "rpXrMHcnEZy23Wcbf8Ja4C88XCZ4ZMLQLn";
