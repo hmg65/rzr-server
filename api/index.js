@@ -123,10 +123,20 @@ app.get("/api/xrpl/test/accountInfo/:address", async (req, res) => {
   client.disconnect();
 });
 
-app.get("/api/xrpl/test/txn/:seed/:amount", async (req, res) => {
+app.get("/api/xrpl/test/txn/:seed/:destAddr/:amount", async (req, res) => {
  
   const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233');
   await client.connect();
+
+  const destAddr = "";
+
+  if(req.params.destAdd === "INR"){
+     destAddr = "rpXrMHcnEZy23Wcbf8Ja4C88XCZ4ZMLQLn";
+  }else{
+    destAddr = req.params.destAddr;
+  }
+
+  
 
   const wallet = xrpl.Wallet.fromSeed(req.params.seed);
 
@@ -134,7 +144,7 @@ app.get("/api/xrpl/test/txn/:seed/:amount", async (req, res) => {
     "TransactionType": "Payment",
     "Account": wallet.address,
     "Amount": xrpl.xrpToDrops(req.params.amount),
-    "Destination": "rpXrMHcnEZy23Wcbf8Ja4C88XCZ4ZMLQLn"
+    "Destination": destAddr
   })
  
   const signed = wallet.sign(prepared)
